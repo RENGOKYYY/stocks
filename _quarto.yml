@@ -3,13 +3,21 @@ project:
     output-dir: docs
 website:
     title: "Analysis of stocks"
-navbar:
-    left:
-    - href: index.qmd
-text: Home
-
+    navbar:
+        left:
+            - href: index.qmd
+            - href: description.qmd
+            - href: results.qmd
 format:
     html:
         theme: cosmo
         css: styles.css
         toc: true
+knitr:
+    opts_chunk:
+        collapse: false
+        message: false
+        warning: false
+        comment: "#>"
+        R.options:
+            knitr.graphics.auto_pdf: true

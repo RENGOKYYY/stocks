@@ -1,10 +1,24 @@
 [
   {
+    "objectID": "description.html",
+    "href": "description.html",
+    "title": "Description of stocks",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\nlibrary(quantmod)\nlibrary(TTR)\nlibrary(PerformanceAnalytics)\n\n\ntickers = c(\"AAPL\", \"IVV\", \"NOK\")\n\n\ngetSymbols(tickers, src = 'yahoo', from = '2019-01-01')\n\n#> [1] \"AAPL\" \"IVV\"  \"NOK\""
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "terdt",
+    "title": "Introduction",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\nw1 = seq(from = 0, to = 3, by = 1)\nw2 = w1 + 1\nhour = paste(w1, w2, sep = \"-\")\nfreq = c(12, 24, 8, 5)\nnames(freq) = hour\nbarplot(freq, las = 1, ylim = c(0, 25), xlab = \"Время (час)\", ylab = \"Частота\", col = rgb(0.2, 0.45345, 0.2876539487659783465983264589736498576394865936459645678456))\n\n\n\nweight = c(21.8, 29.3, 30.2, 20.6, 23.8, 29.5, 28.6, 20.8, 28.4, 30.7, 23.9, 25, 25.5, 28.2, 22.5, \n           21.4, 24.5, 24.8, 29.6, 31.3, 26.3, 26.8, 23.2, 27.5, 28.8, 23.6, 22.8, 30.3, 23.5, 27.3)\nbr = seq(from = 20, to = 32, by = 2)\nx = table(cut(weight, breaks = br))\nsum(x)\n\n#> [1] 30\n\nbr = seq(from = 20, to = 32, by = 3)\nx = table(cut(weight, breaks = br))\nsum(x)\n\n#> [1] 30"
+  },
+  {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "Results",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\nw1 = seq(from = 0, to = 3, by = 1)\nw2 = w1 + 1\nhour = paste(w1, w2, sep = \"-\")\nfreq = c(12, 24, 8, 5)\nnames(freq) = hour\nbarplot(freq, las = 1, ylim = c(0, 25), xlab = \"Время (час)\", ylab = \"Частота\", col = rgb(0.2, 0.45345, 0.2876539487659783465983264589736498576394865936459645678456))\n\n\n\nweight = c(21.8, 29.3, 30.2, 20.6, 23.8, 29.5, 28.6, 20.8, 28.4, 30.7, 23.9, 25, 25.5, 28.2, 22.5, \n           21.4, 24.5, 24.8, 29.6, 31.3, 26.3, 26.8, 23.2, 27.5, 28.8, 23.6, 22.8, 30.3, 23.5, 27.3)\nbr = seq(from = 20, to = 32, by = 2)\nx = table(cut(weight, breaks = br))\nsum(x)\n\n#> [1] 30\n\nbr = seq(from = 20, to = 32, by = 3)\nx = table(cut(weight, breaks = br))\nsum(x)\n\n#> [1] 30"
   },
   {
     "objectID": "stocks0.html",
@@ -18,6 +32,6 @@
     "href": "stocks0.html#running-code",
     "title": "Analysis of Stocks",
     "section": "Running Code",
-    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n[1] 2\n\n\nYou can add options to executable code like this\n\n\n[1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+    "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n#> [1] 2\n\n\nYou can add options to executable code like this\n\n\n#> [1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
   }
 ]

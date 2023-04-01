@@ -1,0 +1,24 @@
+---
+title: "Description of stocks"
+editor_options: 
+  chunk_output_type: console
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+```{r}
+library(quantmod)
+library(TTR)
+library(PerformanceAnalytics)
+```
+
+```{r}
+tickers = c("AAPL", "IVV", "NOK")
+```
+
+```{r}
+getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
+```
+
