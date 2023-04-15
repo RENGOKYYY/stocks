@@ -4,10 +4,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
 ```{r}
 library(quantmod)
 library(TTR)
@@ -15,10 +11,19 @@ library(PerformanceAnalytics)
 ```
 
 ```{r}
-tickers = c("AAPL", "IVV", "NOK")
+tickers = c("AAPL", "IVV", "NOK", "BRK-A")
+getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
 ```
 
 ```{r}
-getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
+chartSeries(AAPL, theme = chartTheme('black'))
+chartSeries(IVV, theme = chartTheme('black'))
+chartSeries(NOK, theme = chartTheme('black'))
+chartSeries(`BRK-A`, theme = chartTheme('black'))
+
+```
+
+```{r}
+save.image("./data/description.rdata")
 ```
 
