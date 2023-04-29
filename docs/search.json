@@ -4,7 +4,7 @@
     "href": "description.html",
     "title": "Description of stocks",
     "section": "",
-    "text": "library(quantmod)\nlibrary(TTR)\nlibrary(PerformanceAnalytics)\n\n\ntickers = c(\"AAPL\", \"IVV\", \"NOK\", \"BRK-A\")\ngetSymbols(tickers, src = 'yahoo', from = '2019-01-01')\n\n#> [1] \"AAPL\"  \"IVV\"   \"NOK\"   \"BRK-A\"\n\n\n\nchartSeries(AAPL, theme = chartTheme('black'))\n\n\n\nchartSeries(IVV, theme = chartTheme('black'))\n\n\n\nchartSeries(NOK, theme = chartTheme('black'))\n\n\n\nchartSeries(`BRK-A`, theme = chartTheme('black'))\n\n\n\n\n\nsave.image(\"./data/description.rdata\")"
+    "text": "library(quantmod)\nlibrary(TTR)\nlibrary(PerformanceAnalytics)\n\n\ntickers = c(\"AAPL\", \"IVV\", \"NOK\", \"BRK-A\")\ngetSymbols(tickers, src = 'yahoo', from = '2019-01-01')\n\n#> [1] \"AAPL\"  \"IVV\"   \"NOK\"   \"BRK-A\"\n\nSTOCKS = lapply(tickers, function(x)\n    getSymbols(x, \n               src = 'yahoo', \n               from = '2019-01-01', \n               auto.assign = FALSE)\n)\nnames(STOCKS) <- gsub(\"-\", \"\", tickers)\nfor (st in 1:length(STOCKS)) {\n    names(STOCKS[[st]]) = gsub(\"-\", \"\", names(STOCKS[[st]]))\n}\n\n\n# chartSeries(AAPL, theme = chartTheme('black'))\n# chartSeries(IVV, theme = chartTheme('black'))\n# chartSeries(NOK, theme = chartTheme('black'))\n# chartSeries(`BRK-A`, theme = chartTheme('black'))\nfor (st in 1:length(STOCKS)) {\n    chartSeries(STOCKS[[st]], theme = chartTheme('black'))\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsave.image(\"./data/description.rdata\")"
   },
   {
     "objectID": "results.html",
