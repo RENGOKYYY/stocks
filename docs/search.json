@@ -4,14 +4,7 @@
     "href": "description.html",
     "title": "Description of stocks",
     "section": "",
-    "text": "library(quantmod)\nlibrary(TTR)\nlibrary(PerformanceAnalytics)\n\n\ntickers = c(\"AAPL\", \"IVV\", \"NOK\", \"BRK-A\")\ngetSymbols(tickers, src = 'yahoo', from = '2019-01-01')\n\n#> [1] \"AAPL\"  \"IVV\"   \"NOK\"   \"BRK-A\"\n\nSTOCKS = lapply(tickers, function(x)\n    getSymbols(x, \n               src = 'yahoo', \n               from = '2019-01-01', \n               auto.assign = FALSE)\n)\nnames(STOCKS) <- gsub(\"-\", \"\", tickers)\nfor (st in 1:length(STOCKS)) {\n    names(STOCKS[[st]]) = gsub(\"-\", \"\", names(STOCKS[[st]]))\n}\n\n\n# chartSeries(AAPL, theme = chartTheme('black'))\n# chartSeries(IVV, theme = chartTheme('black'))\n# chartSeries(NOK, theme = chartTheme('black'))\n# chartSeries(`BRK-A`, theme = chartTheme('black'))\nfor (st in 1:length(STOCKS)) {\n    chartSeries(STOCKS[[st]], theme = chartTheme('black'))\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsave.image(\"./data/description.rdata\")"
-  },
-  {
-    "objectID": "results.html",
-    "href": "results.html",
-    "title": "Results",
-    "section": "",
-    "text": "library(quantmod)\nload(\"./data/description.rdata\")\n\n\nAAPL = as.data.frame(AAPL)\nAAPL$Avg = (AAPL$AAPL.Open + AAPL$AAPL.Close)/2 \nwith(AAPL,(Avg[length(Avg)] - Avg[1])*100/Avg[1])\n\n#> [1] 321.7257\n\n\n\nNOK = as.data.frame(NOK)\nNOK$Avg = (NOK$NOK.Open + NOK$NOK.Close)/2 \nwith(NOK,(Avg[length(Avg)] - Avg[1])*100/Avg[1])\n\n#> [1] -13.8986\n\n\n\nIVV = as.data.frame(IVV)\nIVV$Avg = (IVV$IVV.Open + IVV$IVV.Close)/2 \nwith(IVV,(Avg[length(Avg)] - Avg[1])*100/Avg[1])\n\n#> [1] 66.02372\n\n\n\nBRKA = as.data.frame(`BRK-A`)\nBRKA$Avg = (BRKA$`BRK-A.Open` + BRKA$`BRK-A.Close`)/2 \nwith(BRKA,(Avg[length(Avg)] - Avg[1])*100/Avg[1])\n\n#> [1] 63.33777"
+    "text": "library(quantmod)\nlibrary(TTR)\nlibrary(PerformanceAnalytics)\n\n\ntickers = c(\"AAPL\", \"IVV\", \"NOK\", \"BRK-A\")\n# getSymbols(tickers, src = 'yahoo', from = '2019-01-01')\nSTOCKS = lapply(tickers, function(x)\n    getSymbols(x, \n               src = 'yahoo', \n               from = '2019-01-01', \n               auto.assign = FALSE)\n)\nnames(STOCKS) <- gsub(\"-\", \"\", tickers)\nfor (st in 1:length(STOCKS)) {\n    names(STOCKS[[st]]) = gsub(\"-\", \"\", names(STOCKS[[st]]))\n}\n\n\n# chartSeries(AAPL, theme = chartTheme('black'))\n# chartSeries(IVV, theme = chartTheme('black'))\n# chartSeries(NOK, theme = chartTheme('black'))\n# chartSeries(`BRK-A`, theme = chartTheme('black'))\nfor (st in 1:length(STOCKS)) {\n    chartSeries(STOCKS[[st]], \n                name = tickers[st],\n                theme = chartTheme('black'))\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsave.image(\"./data/description.rdata\")"
   },
   {
     "objectID": "stocks0.html",
@@ -26,5 +19,12 @@
     "title": "Analysis of Stocks",
     "section": "Running Code",
     "text": "Running Code\nWhen you click the Render button a document will be generated that includes both content and the output of embedded code. You can embed code like this:\n\n1 + 1\n\n#> [1] 2\n\n\nYou can add options to executable code like this\n\n\n#> [1] 4\n\n\nThe echo: false option disables the printing of code (only output is displayed)."
+  },
+  {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "Results",
+    "section": "",
+    "text": "library(quantmod)\nlibrary(ggplot2)\nload(\"./data/description.rdata\")\n\n\nPercentChange <- numeric()\nfor (st in 1:length(STOCKS)) { # st = 1\n    STOCKS[[st]]$Avg = (STOCKS[[st]][, 1] + STOCKS[[st]][, 4])/2\n    PercentChange[st] <- with(as.data.frame(STOCKS[[st]]),\n                              (Avg[length(Avg)] - Avg[1])*100/Avg[1])\n}\nnames(PercentChange) <- tickers\n\n\n# barplot(PercentChange, las = 1)\nggplot(data.frame(PercentChange), aes(x = tickers, y = PercentChange)) + \n    geom_bar(stat = \"identity\") + \n    xlab(\"\") +\n    geom_text(aes(label = round(PercentChange, 1)), \n              color = \"white\", \n              size = 5,\n              position = position_stack(vjust = 0.5)) + \n    theme_light()"
   }
 ]

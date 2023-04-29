@@ -6,39 +6,29 @@ editor_options:
 
 ```{r}
 library(quantmod)
+library(ggplot2)
 load("./data/description.rdata")
 ```
 
 ```{r}
-for (st in 1:length(STOCKS)) {
-    chartSeries(STOCKS[[st]], 
-                name = tickers[st],
-                theme = chartTheme('black'))
+PercentChange <- numeric()
+for (st in 1:length(STOCKS)) { # st = 1
+    STOCKS[[st]]$Avg = (STOCKS[[st]][, 1] + STOCKS[[st]][, 4])/2
+    PercentChange[st] <- with(as.data.frame(STOCKS[[st]]),
+                              (Avg[length(Avg)] - Avg[1])*100/Avg[1])
 }
-
-AAPL = as.data.frame(AAPL)
-AAPL$Avg = (AAPL$AAPL.Open + AAPL$AAPL.Close)/2 
-with(AAPL,(Avg[length(Avg)] - Avg[1])*100/Avg[1])
-
+names(PercentChange) <- tickers
 ```
 
 ```{r}
-NOK = as.data.frame(NOK)
-NOK$Avg = (NOK$NOK.Open + NOK$NOK.Close)/2 
-with(NOK,(Avg[length(Avg)] - Avg[1])*100/Avg[1])
-
+# barplot(PercentChange, las = 1)
+ggplot(data.frame(PercentChange), aes(x = tickers, y = PercentChange)) + 
+    geom_bar(stat = "identity") + 
+    xlab("") +
+    geom_text(aes(label = round(PercentChange, 1)), 
+              color = "white", 
+              size = 5,
+              position = position_stack(vjust = 0.5)) + 
+    theme_light()
 ```
 
-```{r}
-IVV = as.data.frame(IVV)
-IVV$Avg = (IVV$IVV.Open + IVV$IVV.Close)/2 
-with(IVV,(Avg[length(Avg)] - Avg[1])*100/Avg[1])
-
-```
-
-```{r}
-BRKA = as.data.frame(`BRK-A`)
-BRKA$Avg = (BRKA$`BRK-A.Open` + BRKA$`BRK-A.Close`)/2 
-with(BRKA,(Avg[length(Avg)] - Avg[1])*100/Avg[1])
-
-```
