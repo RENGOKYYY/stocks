@@ -12,7 +12,7 @@ library(PerformanceAnalytics)
 
 ```{r}
 tickers = c("AAPL", "IVV", "NOK", "BRK-A")
-getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
+# getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
 STOCKS = lapply(tickers, function(x)
     getSymbols(x, 
                src = 'yahoo', 

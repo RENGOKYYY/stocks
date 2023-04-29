@@ -10,6 +10,12 @@ load("./data/description.rdata")
 ```
 
 ```{r}
+for (st in 1:length(STOCKS)) {
+    chartSeries(STOCKS[[st]], 
+                name = tickers[st],
+                theme = chartTheme('black'))
+}
+
 AAPL = as.data.frame(AAPL)
 AAPL$Avg = (AAPL$AAPL.Open + AAPL$AAPL.Close)/2 
 with(AAPL,(Avg[length(Avg)] - Avg[1])*100/Avg[1])
