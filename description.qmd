@@ -13,14 +13,28 @@ library(PerformanceAnalytics)
 ```{r}
 tickers = c("AAPL", "IVV", "NOK", "BRK-A")
 getSymbols(tickers, src = 'yahoo', from = '2019-01-01')
+STOCKS = lapply(tickers, function(x)
+    getSymbols(x, 
+               src = 'yahoo', 
+               from = '2019-01-01', 
+               auto.assign = FALSE)
+)
+names(STOCKS) <- gsub("-", "", tickers)
+for (st in 1:length(STOCKS)) {
+    names(STOCKS[[st]]) = gsub("-", "", names(STOCKS[[st]]))
+}
 ```
 
 ```{r}
-chartSeries(AAPL, theme = chartTheme('black'))
-chartSeries(IVV, theme = chartTheme('black'))
-chartSeries(NOK, theme = chartTheme('black'))
-chartSeries(`BRK-A`, theme = chartTheme('black'))
-
+# chartSeries(AAPL, theme = chartTheme('black'))
+# chartSeries(IVV, theme = chartTheme('black'))
+# chartSeries(NOK, theme = chartTheme('black'))
+# chartSeries(`BRK-A`, theme = chartTheme('black'))
+for (st in 1:length(STOCKS)) {
+    chartSeries(STOCKS[[st]], 
+                name = tickers[st],
+                theme = chartTheme('black'))
+}
 ```
 
 ```{r}
