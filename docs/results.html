@@ -189,38 +189,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"./data/description.rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"./data/description.rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>AAPL <span class="ot">=</span> <span class="fu">as.data.frame</span>(AAPL)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>AAPL<span class="sc">$</span>Avg <span class="ot">=</span> (AAPL<span class="sc">$</span>AAPL.Open <span class="sc">+</span> AAPL<span class="sc">$</span>AAPL.Close)<span class="sc">/</span><span class="dv">2</span> </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(AAPL,(Avg[<span class="fu">length</span>(Avg)] <span class="sc">-</span> Avg[<span class="dv">1</span>])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span>Avg[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; [1] 321.7257</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NOK <span class="ot">=</span> <span class="fu">as.data.frame</span>(NOK)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>NOK<span class="sc">$</span>Avg <span class="ot">=</span> (NOK<span class="sc">$</span>NOK.Open <span class="sc">+</span> NOK<span class="sc">$</span>NOK.Close)<span class="sc">/</span><span class="dv">2</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(NOK,(Avg[<span class="fu">length</span>(Avg)] <span class="sc">-</span> Avg[<span class="dv">1</span>])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span>Avg[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; [1] -13.8986</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>PercentChange <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (st <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(STOCKS)) { <span class="co"># st = 1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>Avg <span class="ot">=</span> (STOCKS[[st]][, <span class="dv">1</span>] <span class="sc">+</span> STOCKS[[st]][, <span class="dv">4</span>])<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    PercentChange[st] <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">as.data.frame</span>(STOCKS[[st]]),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                              (Avg[<span class="fu">length</span>(Avg)] <span class="sc">-</span> Avg[<span class="dv">1</span>])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span>Avg[<span class="dv">1</span>])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(PercentChange) <span class="ot">&lt;-</span> tickers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>IVV <span class="ot">=</span> <span class="fu">as.data.frame</span>(IVV)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>IVV<span class="sc">$</span>Avg <span class="ot">=</span> (IVV<span class="sc">$</span>IVV.Open <span class="sc">+</span> IVV<span class="sc">$</span>IVV.Close)<span class="sc">/</span><span class="dv">2</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(IVV,(Avg[<span class="fu">length</span>(Avg)] <span class="sc">-</span> Avg[<span class="dv">1</span>])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span>Avg[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; [1] 66.02372</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>BRKA <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="st">`</span><span class="at">BRK-A</span><span class="st">`</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>BRKA<span class="sc">$</span>Avg <span class="ot">=</span> (BRKA<span class="sc">$</span><span class="st">`</span><span class="at">BRK-A.Open</span><span class="st">`</span> <span class="sc">+</span> BRKA<span class="sc">$</span><span class="st">`</span><span class="at">BRK-A.Close</span><span class="st">`</span>)<span class="sc">/</span><span class="dv">2</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(BRKA,(Avg[<span class="fu">length</span>(Avg)] <span class="sc">-</span> Avg[<span class="dv">1</span>])<span class="sc">*</span><span class="dv">100</span><span class="sc">/</span>Avg[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>#&gt; [1] 63.33777</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># barplot(PercentChange, las = 1)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(PercentChange), <span class="fu">aes</span>(<span class="at">x =</span> tickers, <span class="at">y =</span> PercentChange)) <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(PercentChange, <span class="dv">1</span>)), </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"white"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">5</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">position =</span> <span class="fu">position_stack</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>)) <span class="sc">+</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
