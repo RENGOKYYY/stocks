@@ -58,5 +58,20 @@ ggplot(data.frame(Min), aes(x = tickers, y = Min)) +
     theme_light() + 
     scale_y_continuous(trans='log10')
 
- ```
+```
+
+```{r}
+for (st in 1:length(STOCKS)) { # st = 1
+    STOCKS[[st]]$sma20 = SMA(STOCKS[[st]][, 4], n = 20)
+    STOCKS[[st]]$sma50 = SMA(STOCKS[[st]][, 4], n = 50)
+    lineChart(STOCKS[[st]], 
+              name = tickers[st],
+              theme = chartTheme('black'))
+    addSMA(n = 20, col = 'blue')
+    addSMA(n = 50, col = 'orange')
+    legend('left', col = c('blue','orange'),
+           legend = c('SMA20','SMA50'), lty = 1, bty = 'n',
+           text.col = 'white', cex = 0.8)
+}
+```
 
