@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.313">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -250,14 +250,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma20 <span class="ot">=</span> <span class="fu">SMA</span>(STOCKS[[st]][, <span class="dv">4</span>], <span class="at">n =</span> <span class="dv">20</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma50 <span class="ot">=</span> <span class="fu">SMA</span>(STOCKS[[st]][, <span class="dv">4</span>], <span class="at">n =</span> <span class="dv">50</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lineChart</span>(STOCKS[[st]], </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">name =</span> tickers[st],</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">theme =</span> <span class="fu">chartTheme</span>(<span class="st">'black'</span>))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addSMA</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">'blue'</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">addSMA</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="at">col =</span> <span class="st">'orange'</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">'left'</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'orange'</span>),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">'SMA20'</span>,<span class="st">'SMA50'</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">'n'</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">text.col =</span> <span class="st">'white'</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> tickers[st],</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">TA =</span> <span class="st">"addSMA(20, col = 'blue'); addSMA(50, col = 'orange')"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">theme =</span> <span class="fu">chartTheme</span>(<span class="st">'black'</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">'left'</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'orange'</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">'SMA20'</span>,<span class="st">'SMA50'</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">'n'</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">text.col =</span> <span class="st">'white'</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>

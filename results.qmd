@@ -65,10 +65,9 @@ for (st in 1:length(STOCKS)) { # st = 1
     STOCKS[[st]]$sma20 = SMA(STOCKS[[st]][, 4], n = 20)
     STOCKS[[st]]$sma50 = SMA(STOCKS[[st]][, 4], n = 50)
     lineChart(STOCKS[[st]], 
-              name = tickers[st],
-              theme = chartTheme('black'))
-    addSMA(n = 20, col = 'blue')
-    addSMA(n = 50, col = 'orange')
+                name = tickers[st],
+                TA = "addSMA(20, col = 'blue'); addSMA(50, col = 'orange')",
+                theme = chartTheme('black'))
     legend('left', col = c('blue','orange'),
            legend = c('SMA20','SMA50'), lty = 1, bty = 'n',
            text.col = 'white', cex = 0.8)
