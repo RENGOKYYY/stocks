@@ -11,13 +11,15 @@ load("./data/description.rdata")
 ```
 
 ```{r}
-PercentChange <- numeric()
+PercentChange <- Max <- Min <- numeric()
 for (st in 1:length(STOCKS)) { # st = 1
     STOCKS[[st]]$Avg = (STOCKS[[st]][, 1] + STOCKS[[st]][, 4])/2
     PercentChange[st] <- with(as.data.frame(STOCKS[[st]]),
                               (Avg[length(Avg)] - Avg[1])*100/Avg[1])
+    Max[st] = max(STOCKS[[st]][, 2])    
+    Min[st] = min(STOCKS[[st]][, 3])
 }
-names(PercentChange) <- tickers
+names(PercentChange) <- names(Max) <-  names(Min) <- tickers
 ```
 
 ```{r}
@@ -31,4 +33,30 @@ ggplot(data.frame(PercentChange), aes(x = tickers, y = PercentChange)) +
               position = position_stack(vjust = 0.5)) + 
     theme_light()
 ```
+
+```{r}
+ggplot(data.frame(Max), aes(x = tickers, y = Max)) + 
+    geom_bar(stat = "identity") + 
+    xlab("") +
+    geom_text(aes(label = round(Max, 1)), 
+              color = "white", 
+              size = 5,
+              position = position_stack(vjust = 0.5)) + 
+    theme_light() + 
+    scale_y_continuous(trans='log2')
+
+```
+
+```{r}
+ggplot(data.frame(Min), aes(x = tickers, y = Min)) + 
+    geom_bar(stat = "identity") + 
+    xlab("") +
+    geom_text(aes(label = round(Min, 1)), 
+              color = "white", 
+              size = 5,
+              position = position_stack(vjust = 0.5)) + 
+    theme_light() + 
+    scale_y_continuous(trans='log10')
+
+ ```
 
