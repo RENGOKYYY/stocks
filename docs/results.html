@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -250,9 +250,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma20 <span class="ot">=</span> <span class="fu">SMA</span>(STOCKS[[st]][, <span class="dv">4</span>], <span class="at">n =</span> <span class="dv">20</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma50 <span class="ot">=</span> <span class="fu">SMA</span>(STOCKS[[st]][, <span class="dv">4</span>], <span class="at">n =</span> <span class="dv">50</span>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lineChart</span>(STOCKS[[st]], </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> tickers[st],</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">TA =</span> <span class="st">"addSMA(20, col = 'blue'); addSMA(50, col = 'orange')"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">theme =</span> <span class="fu">chartTheme</span>(<span class="st">'black'</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">name =</span> tickers[st],</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">TA =</span> <span class="st">"addSMA(20, col = 'blue'); addSMA(50, col = 'orange')"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">theme =</span> <span class="fu">chartTheme</span>(<span class="st">'black'</span>))</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">legend</span>(<span class="st">'left'</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">'blue'</span>,<span class="st">'orange'</span>),</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">'SMA20'</span>,<span class="st">'SMA50'</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">bty =</span> <span class="st">'n'</span>,</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">text.col =</span> <span class="st">'white'</span>, <span class="at">cex =</span> <span class="fl">0.8</span>)</span>
@@ -269,6 +269,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (st <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(STOCKS)) { <span class="co"># st = 1</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    sma20_ts <span class="ot">&lt;-</span> <span class="fu">Lag</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(<span class="fu">Lag</span>(<span class="fu">Cl</span>(STOCKS[[st]])) <span class="sc">&lt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">8</span>]) <span class="sc">&amp;</span> <span class="fu">Cl</span>(STOCKS[[st]]) <span class="sc">&gt;</span> STOCKS[[st]][, <span class="dv">8</span>],<span class="dv">1</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">ifelse</span>(<span class="fu">Lag</span>(<span class="fu">Cl</span>(STOCKS[[st]])) <span class="sc">&gt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">8</span>]) <span class="sc">&amp;</span> <span class="fu">Cl</span>(STOCKS[[st]]) <span class="sc">&lt;</span> STOCKS[[st]][, <span class="dv">8</span>],<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>)))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    sma20_ts[<span class="fu">is.na</span>(sma20_ts)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SMA 50 Crossover Signal</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    sma50_ts <span class="ot">&lt;-</span> <span class="fu">Lag</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(<span class="fu">Lag</span>(<span class="fu">Cl</span>(STOCKS[[st]])) <span class="sc">&lt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">9</span>]) <span class="sc">&amp;</span> <span class="fu">Cl</span>(STOCKS[[st]]) <span class="sc">&gt;</span> STOCKS[[st]][, <span class="dv">9</span>],<span class="dv">1</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>               <span class="fu">ifelse</span>(<span class="fu">Lag</span>(<span class="fu">Cl</span>(STOCKS[[st]])) <span class="sc">&gt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">9</span>]) <span class="sc">&amp;</span> <span class="fu">Cl</span>(STOCKS[[st]]) <span class="sc">&lt;</span> STOCKS[[st]][, <span class="dv">9</span>],<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>)))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    sma50_ts[<span class="fu">is.na</span>(sma50_ts)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># SMA 20 and SMA 50 Crossover Signal</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    sma_ts <span class="ot">&lt;-</span> <span class="fu">Lag</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ifelse</span>(<span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">8</span>]) <span class="sc">&lt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">9</span>]) <span class="sc">&amp;</span> STOCKS[[st]][, <span class="dv">8</span>] <span class="sc">&gt;</span> STOCKS[[st]][, <span class="dv">9</span>],<span class="dv">1</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>               <span class="fu">ifelse</span>(<span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">8</span>]) <span class="sc">&gt;</span> <span class="fu">Lag</span>(STOCKS[[st]][, <span class="dv">9</span>]) <span class="sc">&amp;</span> STOCKS[[st]][, <span class="dv">8</span>] <span class="sc">&lt;</span> STOCKS[[st]][, <span class="dv">9</span>],<span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>)))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    sma_ts[<span class="fu">is.na</span>(sma_ts)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
