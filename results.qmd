@@ -65,12 +65,32 @@ for (st in 1:length(STOCKS)) { # st = 1
     STOCKS[[st]]$sma20 = SMA(STOCKS[[st]][, 4], n = 20)
     STOCKS[[st]]$sma50 = SMA(STOCKS[[st]][, 4], n = 50)
     lineChart(STOCKS[[st]], 
-                name = tickers[st],
-                TA = "addSMA(20, col = 'blue'); addSMA(50, col = 'orange')",
-                theme = chartTheme('black'))
+              name = tickers[st],
+              TA = "addSMA(20, col = 'blue'); addSMA(50, col = 'orange')",
+              theme = chartTheme('black'))
     legend('left', col = c('blue','orange'),
            legend = c('SMA20','SMA50'), lty = 1, bty = 'n',
            text.col = 'white', cex = 0.8)
 }
 ```
+
+```{r}
+for (st in 1:length(STOCKS)) { # st = 1
+    sma20_ts <- Lag(
+        ifelse(Lag(Cl(STOCKS[[st]])) < Lag(STOCKS[[st]][, 8]) & Cl(STOCKS[[st]]) > STOCKS[[st]][, 8],1,
+               ifelse(Lag(Cl(STOCKS[[st]])) > Lag(STOCKS[[st]][, 8]) & Cl(STOCKS[[st]]) < STOCKS[[st]][, 8],-1,0)))
+    sma20_ts[is.na(sma20_ts)] <- 0
+    # SMA 50 Crossover Signal
+    sma50_ts <- Lag(
+        ifelse(Lag(Cl(STOCKS[[st]])) < Lag(STOCKS[[st]][, 9]) & Cl(STOCKS[[st]]) > STOCKS[[st]][, 9],1,
+               ifelse(Lag(Cl(STOCKS[[st]])) > Lag(STOCKS[[st]][, 9]) & Cl(STOCKS[[st]]) < STOCKS[[st]][, 9],-1,0)))
+    sma50_ts[is.na(sma50_ts)] <- 0
+    # SMA 20 and SMA 50 Crossover Signal
+    sma_ts <- Lag(
+        ifelse(Lag(STOCKS[[st]][, 8]) < Lag(STOCKS[[st]][, 9]) & STOCKS[[st]][, 8] > STOCKS[[st]][, 9],1,
+               ifelse(Lag(STOCKS[[st]][, 8]) > Lag(STOCKS[[st]][, 9]) & STOCKS[[st]][, 8] < STOCKS[[st]][, 9],-1,0)))
+    sma_ts[is.na(sma_ts)] <- 0
+}
+```
+
 
