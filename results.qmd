@@ -7,6 +7,7 @@ editor_options:
 ```{r}
 library(quantmod)
 library(ggplot2)
+library(PerformanceAnalytics)
 load("./data/description.rdata")
 ```
 
@@ -91,22 +92,22 @@ for (st in 1:length(STOCKS)) { # st = 1
                ifelse(Lag(STOCKS[[st]][, 8]) > Lag(STOCKS[[st]][, 9]) & STOCKS[[st]][, 8] < STOCKS[[st]][, 9],-1,0)))
     STOCKS[[st]]$sma_ts[is.na(STOCKS[[st]]$sma_ts)] <- 0
     STOCKS[[st]]$sma_strat <- ifelse(STOCKS[[st]]$sma_ts > 1,0,1)
- for (i in 1:length(Cl(STOCKS[[st]]))) {
+    for (i in 1:length(Cl(STOCKS[[st]]))) {
         STOCKS[[st]]$sma_strat[i] <- ifelse(STOCKS[[st]]$sma_ts[i] == 1,1,ifelse(STOCKS[[st]]$sma_ts[i] == -1,0,STOCKS[[st]]$sma_ts[i - 1]))
- }
- STOCKS[[st]]$sma_strat[is.na(STOCKS[[st]]$sma_strat)] <- 1
- #sma_stratcomp <- cbind(sma20, sma50, sma_ts, sma_strat)
- #colnames(sma_stratcomp) <- c('SMA(20)','SMA(50)','SMA SIGNAL','SMA POSITION')
+    }
+    STOCKS[[st]]$sma_strat[is.na(STOCKS[[st]]$sma_strat)] <- 1
+    #sma_stratcomp <- cbind(sma20, sma50, sma_ts, sma_strat)
+    #colnames(sma_stratcomp) <- c('SMA(20)','SMA(50)','SMA SIGNAL','SMA POSITION')
+    STOCKS[[st]]$benchmark <- diff(log(Cl(STOCKS[[st]])))
+    STOCKS[[st]]$sma_ret <- STOCKS[[st]]$benchmark * STOCKS[[st]]$sma_strat
+    STOCKS[[st]]$sma_ret_commission_adj <- ifelse((STOCKS[[st]]$sma_ts == 1 | STOCKS[[st]]$sma_ts == -1) & STOCKS[[st]]$sma_strat != Lag(STOCKS[[st]]$sma_ts), (STOCKS[[st]]$benchmark - 0.05) * STOCKS[[st]]$sma_strat, STOCKS[[st]]$benchmark*STOCKS[[st]]$sma_strat)
+    #STOCKS[[st]]$sma_comp <- cbind(sma_ret, sma_ret_commission_adj, benchmark)
+    #colnames(sma_comp) <- c('SMA','SMA Commission Adj','Benchmark')
+    charts.PerformanceSummary(STOCKS[[st]][,c("sma_ret", "sma_ret_commission_adj", "benchmark")], main = 'SMA Performance')
+    print(table.AnnualizedReturns(STOCKS[[st]][,c("sma_ret", "sma_ret_commission_adj", "benchmark")]))
+    
 }
 ```
 
 ```{r}
-for (st in 1:length(STOCKS)) { # st = 1
-sma_strat <‐ ifelse(sma_ts > 1,0,1)
- for (i in 1 : length(Cl(STOCKS[[st]]))) {
-        sma_strat[i] <‐ ifelse(sma_ts[i] == 1,1,ifelse(sma_ts[i]== ‐1,0,sma_aap
- }
- sma_strat[is.na(sma_strat)] <‐ 1
- sma_aapl_stratcomp <‐ cbind(sma20, sma50, sma_ts, sma_strat)
- colnames(sma_stratcomp) <‐ c('SMA(20)','SMA(50)','SMA SIGNAL','SMA POSITION')
-}
+STOCKS[[st]]$benchmark <- diff(log(Cl(STOCKS[[st]])))
