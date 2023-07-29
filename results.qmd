@@ -103,7 +103,8 @@ for (st in 1:length(STOCKS)) { # st = 1
     STOCKS[[st]]$sma_ret_commission_adj <- ifelse((STOCKS[[st]]$sma_ts == 1 | STOCKS[[st]]$sma_ts == -1) & STOCKS[[st]]$sma_strat != Lag(STOCKS[[st]]$sma_ts), (STOCKS[[st]]$benchmark - 0.05) * STOCKS[[st]]$sma_strat, STOCKS[[st]]$benchmark*STOCKS[[st]]$sma_strat)
     #STOCKS[[st]]$sma_comp <- cbind(sma_ret, sma_ret_commission_adj, benchmark)
     #colnames(sma_comp) <- c('SMA','SMA Commission Adj','Benchmark')
-    charts.PerformanceSummary(STOCKS[[st]][,c("sma_ret", "sma_ret_commission_adj", "benchmark")], main = 'SMA Performance')
+    charts.PerformanceSummary(STOCKS[[st]][,c("sma_ret", "sma_ret_commission_adj", "benchmark")], 
+                              main = paste('SMA Performance', tickers[st]))
     print(table.AnnualizedReturns(STOCKS[[st]][,c("sma_ret", "sma_ret_commission_adj", "benchmark")]))
     
 }
