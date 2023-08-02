@@ -289,56 +289,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_ts[<span class="fu">is.na</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_strat <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts <span class="sc">&gt;</span> <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">Cl</span>(STOCKS[[st]]))) {</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        STOCKS[[st]]<span class="sc">$</span>sma_strat[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts[i] <span class="sc">==</span> <span class="dv">1</span>,<span class="dv">1</span>,<span class="fu">ifelse</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts[i] <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>,<span class="dv">0</span>,STOCKS[[st]]<span class="sc">$</span>sma_ts[i <span class="sc">-</span> <span class="dv">1</span>]))</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_strat[<span class="fu">is.na</span>(STOCKS[[st]]<span class="sc">$</span>sma_strat)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">#sma_stratcomp &lt;- cbind(sma20, sma50, sma_ts, sma_strat)</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colnames(sma_stratcomp) &lt;- c('SMA(20)','SMA(50)','SMA SIGNAL','SMA POSITION')</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>benchmark <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(<span class="fu">Cl</span>(STOCKS[[st]])))</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_ret <span class="ot">&lt;-</span> STOCKS[[st]]<span class="sc">$</span>benchmark <span class="sc">*</span> STOCKS[[st]]<span class="sc">$</span>sma_strat</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_ret_commission_adj <span class="ot">&lt;-</span> <span class="fu">ifelse</span>((STOCKS[[st]]<span class="sc">$</span>sma_ts <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> STOCKS[[st]]<span class="sc">$</span>sma_ts <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">&amp;</span> STOCKS[[st]]<span class="sc">$</span>sma_strat <span class="sc">!=</span> <span class="fu">Lag</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts), (STOCKS[[st]]<span class="sc">$</span>benchmark <span class="sc">-</span> <span class="fl">0.05</span>) <span class="sc">*</span> STOCKS[[st]]<span class="sc">$</span>sma_strat, STOCKS[[st]]<span class="sc">$</span>benchmark<span class="sc">*</span>STOCKS[[st]]<span class="sc">$</span>sma_strat)</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">#STOCKS[[st]]$sma_comp &lt;- cbind(sma_ret, sma_ret_commission_adj, benchmark)</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colnames(sma_comp) &lt;- c('SMA','SMA Commission Adj','Benchmark')</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">charts.PerformanceSummary</span>(STOCKS[[st]][,<span class="fu">c</span>(<span class="st">"sma_ret"</span>, <span class="st">"sma_ret_commission_adj"</span>, <span class="st">"benchmark"</span>)], </span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>                              <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">'SMA Performance'</span>, tickers[st]))</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">table.AnnualizedReturns</span>(STOCKS[[st]][,<span class="fu">c</span>(<span class="st">"sma_ret"</span>, <span class="st">"sma_ret_commission_adj"</span>, <span class="st">"benchmark"</span>)]))</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        STOCKS[[st]]<span class="sc">$</span>sma_strat[i] <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts[i] <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>,</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>                                            <span class="fu">ifelse</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts[i] <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>, </span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>                                                   <span class="dv">0</span>, STOCKS[[st]]<span class="sc">$</span>sma_strat[i <span class="sc">-</span> <span class="dv">1</span>]))</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_strat[<span class="fu">is.na</span>(STOCKS[[st]]<span class="sc">$</span>sma_strat)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">#sma_stratcomp &lt;- cbind(sma20, sma50, sma_ts, sma_strat)</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colnames(sma_stratcomp) &lt;- c('SMA(20)','SMA(50)','SMA SIGNAL','SMA POSITION')</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>benchmark <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(<span class="fu">Cl</span>(STOCKS[[st]])))</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_ret <span class="ot">&lt;-</span> STOCKS[[st]]<span class="sc">$</span>benchmark <span class="sc">*</span> STOCKS[[st]]<span class="sc">$</span>sma_strat</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    STOCKS[[st]]<span class="sc">$</span>sma_ret_commission_adj <span class="ot">&lt;-</span> <span class="fu">ifelse</span>((STOCKS[[st]]<span class="sc">$</span>sma_ts <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> STOCKS[[st]]<span class="sc">$</span>sma_ts <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">&amp;</span> STOCKS[[st]]<span class="sc">$</span>sma_strat <span class="sc">!=</span> <span class="fu">Lag</span>(STOCKS[[st]]<span class="sc">$</span>sma_ts), (STOCKS[[st]]<span class="sc">$</span>benchmark <span class="sc">-</span> <span class="fl">0.05</span>) <span class="sc">*</span> STOCKS[[st]]<span class="sc">$</span>sma_strat, STOCKS[[st]]<span class="sc">$</span>benchmark<span class="sc">*</span>STOCKS[[st]]<span class="sc">$</span>sma_strat)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">#STOCKS[[st]]$sma_comp &lt;- cbind(sma_ret, sma_ret_commission_adj, benchmark)</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">#colnames(sma_comp) &lt;- c('SMA','SMA Commission Adj','Benchmark')</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">charts.PerformanceSummary</span>(STOCKS[[st]][,<span class="fu">c</span>(<span class="st">"sma_ret"</span>, <span class="st">"sma_ret_commission_adj"</span>, <span class="st">"benchmark"</span>)], </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>                              <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">'SMA Performance'</span>, tickers[st]))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">table.AnnualizedReturns</span>(STOCKS[[st]][,<span class="fu">c</span>(<span class="st">"sma_ret"</span>, <span class="st">"sma_ret_commission_adj"</span>, <span class="st">"benchmark"</span>)]))</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;                           sma_ret sma_ret_commission_adj benchmark
-#&gt; Annualized Return          0.0047                -0.1128    0.3439
-#&gt; Annualized Std Dev         0.0652                 0.1077    0.3318
-#&gt; Annualized Sharpe (Rf=0%)  0.0719                -1.0477    1.0364</code></pre>
+#&gt; Annualized Return          0.2314                 0.0876    0.3428
+#&gt; Annualized Std Dev         0.2421                 0.2572    0.3315
+#&gt; Annualized Sharpe (Rf=0%)  0.9559                 0.3407    1.0342</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;                           sma_ret sma_ret_commission_adj benchmark
-#&gt; Annualized Return          0.0051                -0.1020    0.1130
-#&gt; Annualized Std Dev         0.0341                 0.0844    0.2212
-#&gt; Annualized Sharpe (Rf=0%)  0.1505                -1.2086    0.5110</code></pre>
+#&gt; Annualized Return          0.0585                -0.0541    0.1126
+#&gt; Annualized Std Dev         0.1380                 0.1583    0.2210
+#&gt; Annualized Sharpe (Rf=0%)  0.4240                -0.3418    0.5097</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;                           sma_ret sma_ret_commission_adj benchmark
-#&gt; Annualized Return          0.0645                -0.0798   -0.1735
-#&gt; Annualized Std Dev         0.0985                 0.1261    0.4539
-#&gt; Annualized Sharpe (Rf=0%)  0.6555                -0.6327   -0.3821</code></pre>
+#&gt; Annualized Return         -0.0622                -0.1891   -0.1723
+#&gt; Annualized Std Dev         0.3383                 0.3472    0.4535
+#&gt; Annualized Sharpe (Rf=0%) -0.1839                -0.5447   -0.3798</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;                           sma_ret sma_ret_commission_adj benchmark
-#&gt; Annualized Return         -0.0010                -0.1272    0.1043
-#&gt; Annualized Std Dev         0.0216                 0.0862    0.2180
-#&gt; Annualized Sharpe (Rf=0%) -0.0443                -1.4761    0.4785</code></pre>
+#&gt; Annualized Return          0.0634                -0.0708    0.1047
+#&gt; Annualized Std Dev         0.1349                 0.1588    0.2178
+#&gt; Annualized Sharpe (Rf=0%)  0.4697                -0.4459    0.4807</code></pre>
 </div>
 </div>
 <p>STOCKS[[st]]$benchmark &lt;- diff(log(Cl(STOCKS[[st]])))</p>
